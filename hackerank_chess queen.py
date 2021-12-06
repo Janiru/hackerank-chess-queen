@@ -1,6 +1,3 @@
-import numpy as np
-import re
-
 first_input = input()
 board_lenght, num_obstacles = first_input.split()
 
@@ -12,11 +9,17 @@ board_lenght = int(board_lenght)
 queen_y = int(queen_y)
 queen_x = int(queen_x)
 obstacle_array = []
+count = 0
 
 Up = False
 Down = False
 Left = False
 Right = False
+
+diagonal_top_left = False
+diagonal_top_right = False
+diagonal_bottom_left = False
+diagonal_bottom_right = False
 
 ## make 2D array
 
@@ -50,7 +53,6 @@ for row in range(obstacle_array_rows):
     pawn = obstacle_array[row]
     pawn = ' '.join([str(elem) for elem in pawn])
     pawn=pawn.replace(",","")
-    print(pawn)
     obs_r,obs_c = pawn.split()
     chess_board[int(obs_r)][int(obs_c)] = 2
 
@@ -72,11 +74,53 @@ for y in range(1,(board_lenght - queen_y)):
 
 #going left
 
-for y in range(1,queen_y + 1 ):
-    if chess_board[queen_y - y][queen_x] != 2 and Left== False:
-        chess_board[queen_y - y][queen_x] = 3
+for x in range(1,queen_x + 1):
+    if chess_board[queen_y][queen_x - x] != 2 and Left== False:
+        chess_board[queen_y][queen_x - x] = 3
     else:
         Left=True
+
+#going right
+
+for x in range(1,board_lenght-queen_x):
+    if chess_board[queen_y][queen_x + x] != 2 and Right== False:
+        chess_board[queen_y][queen_x + x] = 3
+    else:
+        Right=True
+
+############# Diagonal Part #############
+
+# going digonal up left
+
+for x in range(1,queen_x + 1):
+    if chess_board[queen_y - x][queen_x - x] != 2 and diagonal_top_left== False:
+        chess_board[queen_y - x][queen_x - x] = 3
+    else:
+        diagonal_top_left=True
+
+# going digonal up right
+
+for x in range(1,board_lenght-queen_x):
+    if chess_board[queen_y - x][queen_x + x] != 2 and diagonal_top_right== False:
+        chess_board[queen_y - x][queen_x + x] = 3
+    else:
+        diagonal_top_right=True
+
+# going digonal down left
+
+for x in range(1,queen_x + 1):
+    if chess_board[queen_y + x][queen_x - x] != 2 and diagonal_bottom_left== False:
+        chess_board[queen_y + x][queen_x - x] = 3
+    else:
+        diagonal_bottom_left=True
+
+# going digonal down right
+
+for x in range(1,queen_x + 1):
+    if chess_board[queen_y + x][queen_x + x] != 2 and diagonal_bottom_right== False:
+        chess_board[queen_y + x][queen_x + x] = 3
+    else:
+        diagonal_bottom_right=True
 
 # place queen
 chess_board[queen_y][queen_x] = 1
@@ -85,6 +129,8 @@ chess_board[queen_y][queen_x] = 1
 
 for row in chess_board:
    for column in row:
-      print(int(column),end = " ")
-   print()
-
+      #print(int(column),end = " ")
+      if column == 3:
+          count += 1
+   #print()
+print(count)
