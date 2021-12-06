@@ -5,13 +5,18 @@ first_input = input()
 board_lenght, num_obstacles = first_input.split()
 
 second_input = input()
-queen_r, queen_c = second_input.split()
+queen_y, queen_x = second_input.split()
 
 num_obstacles = int(num_obstacles)
 board_lenght = int(board_lenght)
-queen_c = int(queen_c)
-queen_r = int(queen_r)
+queen_y = int(queen_y)
+queen_x = int(queen_x)
 obstacle_array = []
+
+Up = False
+Down = False
+Left = False
+Right = False
 
 ## make 2D array
 
@@ -50,16 +55,31 @@ for row in range(obstacle_array_rows):
     chess_board[int(obs_r)][int(obs_c)] = 2
 
 # calculate the number of possible moves
-for x in range(0,board_lenght):
-    for y in range(0,board_lenght):
-        # if chess_board[x + 1][y] != 2:
-        #     chess_board[x + 1][y] = 3
-        # else:
-        #     break
-        print(x,y)
+
+# going up
+for y in range(1,queen_y + 1 ):
+    if chess_board[queen_y - y][queen_x] != 2 and Up== False:
+        chess_board[queen_y - y][queen_x] = 3
+    else:
+        Up=True
+#going down 
+
+for y in range(1,(board_lenght - queen_y)):
+    if chess_board[queen_y + y][queen_x] != 2 and Down== False:
+        chess_board[queen_y + y][queen_x] = 3
+    else:
+        Down=True
+
+#going left
+
+for y in range(1,queen_y + 1 ):
+    if chess_board[queen_y - y][queen_x] != 2 and Left== False:
+        chess_board[queen_y - y][queen_x] = 3
+    else:
+        Left=True
 
 # place queen
-chess_board[queen_r][queen_c] = 1
+chess_board[queen_y][queen_x] = 1
 
 # printing the array
 
